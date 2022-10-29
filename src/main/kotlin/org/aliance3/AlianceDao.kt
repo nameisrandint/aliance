@@ -125,9 +125,9 @@ class AlianceDao(private val jdbcTemplate: JdbcTemplate) {
         val sql = """
             select count(1) < 1 as cond
             from card c
-            join status s on s.id = c.status_id
+            join sub_task st on st.card_id = c.id
             where c.id = $cardId
-                and name != 'DONE'
+                and is_done = true
         """.trimIndent()
         return jdbcTemplate.queryForObject(sql) { rs, n ->  rs.getBoolean("cond") }!!
     }
@@ -136,9 +136,9 @@ class AlianceDao(private val jdbcTemplate: JdbcTemplate) {
         val sql = """
             select count(1) > 0 as cond
             from card c
-            join status s on s.id = c.status_id
+            join sub_task st on st.card_id = c.id
             where c.id = $cardId
-                and status_id = 2
+                and is_done = true
         """.trimIndent()
         return jdbcTemplate.queryForObject(sql) { rs, n ->  rs.getBoolean("cond") }!!
     }
