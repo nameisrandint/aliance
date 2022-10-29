@@ -1,34 +1,34 @@
 package org.aliance3
 
 data class PageState(
-    val levels: List<Level> = listOf()
+    val levels: List<Level>
 )
 
 
 data class Level(
     val isActive: Boolean = false,
-    val cards: List<Card> = listOf(),
-    val progress: Int = 0
+    val cards: List<Card>,
+    val progress: Int
 )
 
 data class SubTask (
-    val header: String = "",
-    val main_body: String = "",
+    val header: String,
+    val main_body: String,
     val idDone: Boolean = false
 )
 
 data class Card(
-    val title: String = "",
-    val difficulty: Int = 0,
+    val title: String,
+    val difficulty: Int,
     val status: Status = Status.NEW,
-    val type: CardType = CardType(),
-    val subTasks: List<SubTask> = listOf()
+    val type: CardType,
+    val subTasks: List<SubTask>
 )
 
 data class CardType(
-    val block: String = "",
-    val color: String = "",
-    val icon: String = ""
+    val block: String,
+    val color: String,
+    val icon: String
 )
 
 enum class Status {

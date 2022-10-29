@@ -103,5 +103,48 @@ class AlianceDao(private val jdbcTemplate: JdbcTemplate) {
         )}
     }
 
+    fun markSubTaskAsCompleted(subTaskId: Int) {
+        val sql = """
+            update sub_task
+            set is_done = not is_done
+            where id = $subTaskId
+        """.trimIndent()
+        jdbcTemplate.update(sql)
+    }
 
+    fun updateCardStatus(cardId: Int, statusId: Int) {
+        val sql = """
+            update card
+            set status_id = $statusId
+            where id = $cardId
+        """.trimIndent()
+        jdbcTemplate.update(sql)
+    }
+
+    fun isAllSubTasksDone(cardId: Int): Boolean {
+        val sql = """
+            select count(1) < 1 as cond
+            from card c
+            join status s on s.id = c.status_id
+            where c.id = $cardId
+                and name != 'DONE'
+        """.trimIndent()
+        return jdbcTemplate.queryForObject(sql) { rs, n ->  rs.getBoolean("cond") }!!
+    }
+
+    fun isAnySubTaskInProgress(cardId: Int): Boolean {
+        val sql = """
+            select count(1) > 0 as cond
+            from card c
+            join status s on s.id = c.status_id
+            where c.id = $cardId
+                and status_id = 2
+        """.trimIndent()
+        return jdbcTemplate.queryForObject(sql) { rs, n ->  rs.getBoolean("cond") }!!
+    }
+
+    fun cardIdBySubTask(taskId: Int): Int {
+        val sql = "select card_id from sub_task where id = $taskId"
+        return jdbcTemplate.queryForObject(sql) { rs, n ->  rs.getInt("card_id") }!!
+    }
 }
