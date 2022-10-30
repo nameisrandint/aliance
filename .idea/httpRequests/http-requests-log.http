@@ -1,0 +1,46 @@
+GET http://localhost:1026/gettrackforuser/0
+
+<> 2022-10-31T021822.200.json
+
+###
+
+POST http://localhost:1026/markascompleted?subTaskId=1
+
+<> 2022-10-31T021820.200.json
+
+###
+
+GET http://localhost:1026/gettrackforuser/0
+
+<> 2022-10-31T021803.200.json
+
+###
+
+GET http://localhost:1026/gettrackforuser/{{userId}}
+
+###
+
+GET http://localhost:1026/gettrackforuser/0
+
+<> 2022-10-31T021718.200.json
+
+###
+
+GET http://localhost:1026/gettrackforuser/0
+
+<> 2022-10-31T014058.200.json
+
+###
+
+GET http://localhost:1026/gettrackforuser/0
+
+<> 2022-10-31T012933.200.json
+
+###
+
+GET http://localhost:1026/gettrackforuser/0
+
+<> 2022-10-31T012848.200.json
+
+###
+

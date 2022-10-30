@@ -127,7 +127,6 @@ class AlianceDao(private val jdbcTemplate: JdbcTemplate) {
             from card c
             join sub_task st on st.card_id = c.id
             where is_done = false
-                and st.card_id = $cardId
         """.trimIndent()
         return jdbcTemplate.queryForObject(sql) { rs, n ->  rs.getBoolean("cond") }!!
     }
@@ -137,14 +136,13 @@ class AlianceDao(private val jdbcTemplate: JdbcTemplate) {
             select count(1) > 0 as cond
             from card c
             join sub_task st on st.card_id = c.id
-            where c.id = $cardId
-                and is_done = true
+            where is_done = true
         """.trimIndent()
-        return jdbcTemplate.queryForObject(sql) { rs, n ->  rs.getBoolean("cond") }!!
+        return jdbcTemplate.queryForObject(sql) { rs, _ ->  rs.getBoolean("cond") }!!
     }
 
     fun cardIdBySubTask(taskId: Int): Int {
         val sql = "select card_id from sub_task where id = $taskId"
-        return jdbcTemplate.queryForObject(sql) { rs, n ->  rs.getInt("card_id") }!!
+        return jdbcTemplate.queryForObject(sql) { rs, _ ->  rs.getInt("card_id") }!!
     }
 }
