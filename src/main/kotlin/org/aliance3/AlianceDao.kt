@@ -2,15 +2,27 @@ package org.aliance3
 
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
+import java.util.concurrent.atomic.AtomicInteger
 
 @Repository
 class AlianceDao(private val jdbcTemplate: JdbcTemplate) {
 
     fun selectPageState(userId: Int): PageState {
+        val levels = selectLevelIds(userId).asSequence()
+            .map { selectLevel(it) }
+            .toList()
+
+        val all = AtomicInteger(0)
+        val completed = AtomicInteger(0)
+
+        levels.asSequence()
+            .flatMap { it.cards }
+            .flatMap { it.subTasks }
+            .forEach { all.incrementAndGet(); if (it.isDone) completed.incrementAndGet() }
+
         return PageState(
-            selectLevelIds(userId).asSequence()
-                .map { selectLevel(it) }
-                .toList()
+            levels,
+            (completed.get() * 100.0 / all.get()).toInt()
         )
     }
 
@@ -25,23 +37,10 @@ class AlianceDao(private val jdbcTemplate: JdbcTemplate) {
     }
 
     fun selectLevel(levelId: Int): Level {
-        val isActive = isLevelActive(levelId)
+        val isActive = isLevelActive(levelId)!!
         val cards = selectCards(levelId)
 
-        val all_subtasks = cards.asSequence()
-            .flatMap { it.subTasks }
-            .count()
-
-        val completed_subtasks = cards.asSequence()
-            .flatMap { it.subTasks }
-            .filter { it.idDone }
-            .count()
-
-        return Level(
-            isActive!!,
-            cards,
-           (completed_subtasks * 100.0 / all_subtasks).toInt()
-        )
+        return Level(isActive, cards)
     }
 
 
@@ -92,11 +91,13 @@ class AlianceDao(private val jdbcTemplate: JdbcTemplate) {
             select
                 header,
                 main_body,
-                is_done
+                is_done,
+                id
             from sub_task
             where card_id = $cardId
         """.trimIndent()
         return jdbcTemplate.query(sql) { rs, n -> SubTask(
+            rs.getInt("id"),
             rs.getString("header"),
             rs.getString("main_body"),
             rs.getBoolean("is_done")
@@ -126,8 +127,8 @@ class AlianceDao(private val jdbcTemplate: JdbcTemplate) {
             select count(1) < 1 as cond
             from card c
             join sub_task st on st.card_id = c.id
-            where c.id = $cardId
-                and is_done = true
+            where is_done = false
+                and st.card_id = $cardId
         """.trimIndent()
         return jdbcTemplate.queryForObject(sql) { rs, n ->  rs.getBoolean("cond") }!!
     }

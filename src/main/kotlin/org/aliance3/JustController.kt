@@ -21,9 +21,7 @@ class JustController {
     }
 
     @PostMapping("/markascompleted")
-    fun markAsCompleted(
-        @RequestParam subTaskId: Int
-    ) {
+    fun markAsCompleted(@RequestParam subTaskId: Int): Int {
         alianceDao.markSubTaskAsCompleted(subTaskId)
         val cardId = alianceDao.cardIdBySubTask(subTaskId)
 
@@ -35,5 +33,6 @@ class JustController {
             alianceDao.updateCardStatus(cardId, 3)
         }
 
+        return 0
     }
 }

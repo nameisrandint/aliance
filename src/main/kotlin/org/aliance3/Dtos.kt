@@ -1,20 +1,21 @@
 package org.aliance3
 
 data class PageState(
-    val levels: List<Level>
+    val levels: List<Level>,
+    val progress: Int
 )
 
 
 data class Level(
     val isActive: Boolean = false,
-    val cards: List<Card>,
-    val progress: Int
+    val cards: List<Card>
 )
 
 data class SubTask (
+    val id: Int,
     val header: String,
     val main_body: String,
-    val idDone: Boolean = false
+    val isDone: Boolean = false
 )
 
 data class Card(
