@@ -16,8 +16,7 @@ class JustController {
 
     @GetMapping("/gettrackforuser/{userId}")
     fun pageState(@PathVariable userId: Int): PageState {
-        val res = alianceDao.selectPageState(userId)
-        return res
+        return alianceDao.selectPageState(userId)
     }
 
     @PostMapping("/markascompleted")
