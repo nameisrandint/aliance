@@ -39,7 +39,6 @@ class AlianceDao(private val jdbcTemplate: JdbcTemplate) {
     fun selectLevel(levelId: Int): Level {
         val isActive = isLevelActive(levelId)!!
         val cards = selectCards(levelId)
-
         return Level(isActive, cards)
     }
 
@@ -61,9 +60,9 @@ class AlianceDao(private val jdbcTemplate: JdbcTemplate) {
                 title,
                 difficulty,
                 s.name as status,
-                ct.icon,
-                ct.block,
-                ct.color,
+                ct.icon as icon,
+                ct.block as block,
+                ct.color as color,
                 c.id as card_id
             from level l
             join card c on l.id = c.level_id

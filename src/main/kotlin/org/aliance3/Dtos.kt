@@ -5,7 +5,6 @@ data class PageState(
     val progress: Int
 )
 
-
 data class Level(
     val isActive: Boolean = false,
     val cards: List<Card>
