@@ -1,4 +1,4 @@
-package org.aliance3
+package org.aliance3.alliance
 
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
@@ -100,7 +100,8 @@ class AlianceDao(private val jdbcTemplate: JdbcTemplate) {
             rs.getString("header"),
             rs.getString("main_body"),
             rs.getBoolean("is_done")
-        )}
+        )
+        }
     }
 
     fun markSubTaskAsCompleted(subTaskId: Int) {

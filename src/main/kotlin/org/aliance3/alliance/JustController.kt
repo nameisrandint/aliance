@@ -1,4 +1,4 @@
-package org.aliance3
+package org.aliance3.alliance
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping

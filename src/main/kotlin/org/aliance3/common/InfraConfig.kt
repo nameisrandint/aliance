@@ -1,8 +1,9 @@
-package org.aliance3
+package org.aliance3.common
 
 import liquibase.integration.spring.SpringLiquibase
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.web.client.RestTemplate
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
@@ -18,6 +19,9 @@ class InfraConfig {
         liquibase.changeLog = "classpath:liquibase-changelog.xml"
         return liquibase
     }
+
+    @Bean
+    fun restTemplate() = RestTemplate()
 
     @Bean
     fun corsConfigurer(): WebMvcConfigurer? {

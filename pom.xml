@@ -16,6 +16,7 @@
     <properties>
         <java.version>17</java.version>
         <kotlin.version>1.6.21</kotlin.version>
+        <telegram.version>6.1.0</telegram.version>
     </properties>
     <dependencies>
         <dependency>
@@ -51,7 +52,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -62,6 +63,23 @@
             <groupId>io.zonky.test</groupId>
             <artifactId>embedded-postgres</artifactId>
             <version>2.0.1</version>
+        </dependency>
+        <!-- Telegram API -->
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots</artifactId>
+            <version>${telegram.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambotsextensions</artifactId>
+            <version>${telegram.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.ghost4j/ghost4j -->
+        <dependency>
+            <groupId>org.ghost4j</groupId>
+            <artifactId>ghost4j</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 

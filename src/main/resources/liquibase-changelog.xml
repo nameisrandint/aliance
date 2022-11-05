@@ -12,5 +12,6 @@
     <include file="schema/card.sql" relativeToChangelogFile="true"/>
     <include file="schema/sub_task.sql" relativeToChangelogFile="true"/>
     <include file="schema/update.sql" relativeToChangelogFile="true"/>
+    <include file="schema/image.sql" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

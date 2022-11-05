@@ -1,4 +1,4 @@
-package org.aliance3
+package org.aliance3.alliance
 
 data class PageState(
     val levels: List<Level>,

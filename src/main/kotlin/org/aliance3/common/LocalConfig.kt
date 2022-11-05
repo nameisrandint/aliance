@@ -1,4 +1,4 @@
-package org.aliance3
+package org.aliance3.common
 
 
 import io.zonky.test.db.postgres.embedded.EmbeddedPostgres
