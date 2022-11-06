@@ -8,8 +8,8 @@ import org.springframework.boot.runApplication
  * 1. logging
  * 2. Unable to deserialize response
  * 3. remove tmp files
- * 4. NPE on startup when using script
- * 5. завести тестового бота
+ * --4. NPE on startup when using script--
+ * --5. завести тестового бота--
  * 6. cors
  */
 

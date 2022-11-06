@@ -15,7 +15,7 @@ class PageService(
     private val telegram: Telegram
 ) {
 
-    @Scheduled(cron = "0 30 8,12,20 * * ?")
+    @Scheduled(cron = "0 30 8,12,16,20 * * ?")
     fun sentNextImage() {
         return sentImageWithSwipe(1)
     }
