@@ -11,7 +11,7 @@ class CredentialsProvider {
         return File(pathToCred).readLines().asSequence()
             .filter { it != "" }
             .map{ it.split("=") }
-            .map { Pair(it[0], it[1]) }
+            .map { it[0] to it[1] }
             .toMap()
     }
 }
