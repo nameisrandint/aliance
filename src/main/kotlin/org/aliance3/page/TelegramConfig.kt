@@ -20,9 +20,6 @@ class TelegramConfig {
     fun prepareBot() {
         val api = TelegramBotsApi(DefaultBotSession::class.java)
         api.registerBot(telegram)
-
-        for (command in commands) {
-            telegram.register(command)
-        }
+        commands.forEach { telegram.register(it) }
     }
 }
