@@ -8,9 +8,9 @@ import java.util.concurrent.ForkJoinPool
 import kotlin.system.exitProcess
 
 @RestController
-class SuperPingController {
+class PingController {
 
-    val log: Logger = LoggerFactory.getLogger(SuperPingController::class.java)
+    val log: Logger = LoggerFactory.getLogger(PingController::class.java)
 
     @GetMapping("/ping")
     fun ping(): Int {
