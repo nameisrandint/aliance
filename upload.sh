@@ -1,3 +1,4 @@
+rm -rf target;
 mvn package;
 ssh -i key.txt leny@130.193.36.186 "rm aliance/aliance3-0.0.1-SNAPSHOT.jar";
 scp -i key.txt target/aliance3-0.0.1-SNAPSHOT.jar leny@130.193.36.186:aliance;
