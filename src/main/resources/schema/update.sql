@@ -18,3 +18,7 @@ values (1, 'super card title', '100', '1', '1', 0);
 
 insert into sub_task (id, card_id, header, main_body)
 values (1, 1, 'super header text', 'super main body');
+
+--changeset momont-igor:update2
+insert into key_value (key, value)
+values ('committed', 'true');

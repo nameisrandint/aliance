@@ -20,7 +20,32 @@ class KeyValueStorage {
         }
     }
 
+    fun setInt(key: String, value: Int) {
+        jdbcTemplate.update(
+            """
+                update key_value
+                set value = '$value'
+                where key = '$key'
+            """.trimIndent()
+        )
+    }
+
     fun getInt(key: String): Int? = get(key)?.toInt()
+
+    fun getBool(key: String) = get(key).toBoolean()
+
+    fun switchBool(key: String) {
+        val sql = """
+            update key_value
+            set value = CASE
+                when value = 'true' then 'false'
+                when value = 'false' then 'true'
+                else value
+            end
+            where key = '$key'
+        """.trimIndent()
+        jdbcTemplate.update(sql)
+    }
 
     fun set(key: String, value: String) {
         val sql = """
@@ -30,5 +55,18 @@ class KeyValueStorage {
             set value = '$value'
             """
         jdbcTemplate.update(sql)
+    }
+
+    fun set(key: String, value: Boolean) {
+        val asStr = value.toString();
+        set(key, asStr)
+    }
+
+    fun setFalse(key: String) {
+        set(key, false)
+    }
+
+    fun setTrue(key: String) {
+        set(key, true)
     }
 }

@@ -26,21 +26,6 @@ class ImageDao(private val namedParameterJdbcTemplate: NamedParameterJdbcTemplat
         namedParameterJdbcTemplate.update(sql, params)
     }
 
-//    fun selectImages(): List<File> {
-//        val sql = """
-//            select content from image
-//        """.trimIndent()
-//        val bytes = namedParameterJdbcTemplate.query(sql, MapSqlParameterSource()) {
-//                rs, _ -> rs.getBytes(1)
-//        }
-//        val files = ArrayList<File>()
-//        for (byteArr in bytes) {
-//            val file = toFile(byteArr)
-//            files.add(file)
-//        }
-//        return files
-//    }
-
     fun selectImageIdFromCurrent(current: Int, shift: Int): Int? {
         val sql = """
             with current_updated_at (current_updated_at_var) AS (
@@ -48,7 +33,8 @@ class ImageDao(private val namedParameterJdbcTemplate: NamedParameterJdbcTemplat
                 from image
                 where id = $current
             ), next_shift AS (
-                select id, updated_at
+                select id, 
+                updated_at
                 from image, current_updated_at
                 where image.updated_at > current_updated_at_var
                 limit $shift
@@ -98,4 +84,21 @@ class ImageDao(private val namedParameterJdbcTemplate: NamedParameterJdbcTemplat
         }
         return file
     }
+
+    /*
+    fun selectImages(): List<File> {
+        val sql = """
+            select content from image
+        """.trimIndent()
+        val bytes = namedParameterJdbcTemplate.query(sql, MapSqlParameterSource()) {
+                rs, _ -> rs.getBytes(1)
+        }
+        val files = ArrayList<File>()
+        for (byteArr in bytes) {
+            val file = toFile(byteArr)
+            files.add(file)
+        }
+        return files
+    } */
 }
+

@@ -10,7 +10,7 @@ class CredentialsProvider {
         val pathToCred = System.getenv("path_to_credentials_file")
         return File(pathToCred).readLines().asSequence()
             .filter { it != "" }
-            .map{ it.split("=") }
+            .map { it.split("=") }
             .map { it[0] to it[1] }
             .toMap()
     }

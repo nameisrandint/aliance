@@ -33,7 +33,7 @@ class AlianceDao(private val jdbcTemplate: JdbcTemplate) {
             join aliance_user au on au.id = l.user_id
             where au.id = $userId
         """.trimIndent()
-        return jdbcTemplate.query(sql) { rs, n -> rs.getInt("id")}
+        return jdbcTemplate.query(sql) { rs, _ -> rs.getInt("id")}
     }
 
     fun selectLevel(levelId: Int): Level {

@@ -5,6 +5,7 @@ import org.aliance3.common.CredentialsProvider
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto
 import org.telegram.telegrambots.meta.api.objects.InputFile
 import org.telegram.telegrambots.meta.api.objects.Update
@@ -37,20 +38,33 @@ class Telegram(
     override fun processNonCommandUpdate(update: Update?) {
         if (update?.message?.hasPhoto()!!) {
             val fileId =  update.message.photo.last().fileId
-            val url = "https://api.telegram.org/bot$botToken/getFile?file_id=$fileId"
-            val body = restTemplate.getForEntity(url, String::class.java).body!!
-            var node = mapper.nullNode()
-            try {
-                node = mapper.readTree(body)
-            } catch (_: java.lang.Exception) { }
-            val filePath = node["result"]["file_path"].asText()
-            val url2 = "https://api.telegram.org/file/bot$botToken/$filePath"
-            val bytes = restTemplate.getForEntity(url2, ByteArray::class.java).body!!
-            imageDao.insertImage("hm" + Instant.now(), bytes)
+            saveImage(fileId)
         }
     }
 
+    fun sentText(text: String) {
+        val mess = SendMessage()
+        mess.chatId = CHATS.ME.id
+        mess.text = text
+        execute(mess)
+    }
 
+    fun saveImage(fileId: String) {
+        val bytes = downloadPhoto(fileId)
+        imageDao.insertImage("hm" + Instant.now(), bytes)
+    }
+
+    fun downloadPhoto(fileId: String): ByteArray {
+        val url = "https://api.telegram.org/bot$botToken/getFile?file_id=$fileId"
+        val body = restTemplate.getForEntity(url, String::class.java).body!!
+        var node = mapper.nullNode()
+        try {
+            node = mapper.readTree(body)
+        } catch (_: java.lang.Exception) { }
+        val filePath = node["result"]["file_path"].asText()
+        val url2 = "https://api.telegram.org/file/bot$botToken/$filePath"
+        return restTemplate.getForEntity(url2, ByteArray::class.java).body!!
+    }
 
     fun sendImage(file: File) {
         val inptFile = InputFile(file)

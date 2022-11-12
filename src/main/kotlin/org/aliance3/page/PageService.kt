@@ -5,7 +5,8 @@ import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
-const val KEY = "last.updated.at"
+const val CURSOR = "last.updated.at"
+const val COMMIT = "committed"
 
 @Service
 @EnableScheduling
@@ -16,8 +17,26 @@ class PageService(
 ) {
 
     @Scheduled(cron = "0 30 8,12,16,20 * * ?")
-    fun sentNextImage() {
-        return sentImageWithSwipe(1)
+    fun nextNotification() {
+        val committed = kv.getBool(COMMIT);
+        if (committed) {
+            sentImageWithSwipe(1)
+            removeCommit()
+        } else {
+            telegram.sentText("Йо мэээн, шо делаешь?")
+        }
+    }
+
+    fun setCursor(pos: Int) {
+        kv.setInt(CURSOR, pos)
+    }
+
+    fun commit() {
+        kv.setTrue(COMMIT)
+    }
+
+    fun removeCommit() {
+        kv.setFalse(COMMIT)
     }
 
     fun sentImageWithSwipe(swipe: Int) {
@@ -27,7 +46,7 @@ class PageService(
     }
 
     fun moveCursorOrIfNullSetToStart(step: Int): Int {
-        var curId = kv.getInt(KEY)
+        var curId = kv.getInt(CURSOR)
         curId = if (curId == null) {
             imageDao.selectFirstImageId()
         } else {
@@ -38,7 +57,7 @@ class PageService(
             curId = imageDao.selectFirstImageId()
         }
 
-        kv.set(KEY, curId.toString())
+        kv.set(CURSOR, curId.toString())
         return curId!!
     }
 }
