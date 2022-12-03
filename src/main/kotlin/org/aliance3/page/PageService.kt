@@ -18,7 +18,7 @@ class PageService(
 
     @Scheduled(cron = "0 30 8,12,16,20 * * ?")
     fun nextNotification() {
-        val committed = kv.getBool(COMMIT);
+        val committed = kv.getBool(COMMIT)
         if (committed) {
             sentImageWithSwipe(1)
             removeCommit()
@@ -47,6 +47,7 @@ class PageService(
 
     fun moveCursorOrIfNullSetToStart(step: Int): Int {
         var curId = kv.getInt(CURSOR)
+
         curId = if (curId == null) {
             imageDao.selectFirstImageId()
         } else {

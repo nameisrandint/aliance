@@ -57,16 +57,16 @@ class KeyValueStorage {
         jdbcTemplate.update(sql)
     }
 
-    fun set(key: String, value: Boolean) {
-        val asStr = value.toString();
-        set(key, asStr)
-    }
-
     fun setFalse(key: String) {
         set(key, false)
     }
 
     fun setTrue(key: String) {
         set(key, true)
+    }
+
+    private fun set(key: String, value: Boolean) {
+        val asStr = value.toString();
+        set(key, asStr)
     }
 }

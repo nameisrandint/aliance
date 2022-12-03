@@ -67,9 +67,9 @@ class Telegram(
     }
 
     fun sendImage(file: File) {
-        val inptFile = InputFile(file)
+        val inputFile = InputFile(file)
         val photo = SendPhoto()
-        photo.photo = inptFile
+        photo.photo = inputFile
         photo.chatId = CHATS.ME.id
         try {
             execute(photo)

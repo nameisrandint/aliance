@@ -43,13 +43,9 @@ class Commit (private val pageService: PageService): IBotCommand {
 @Component
 class SetCursor (private val pageService: PageService): IBotCommand {
 
-    override fun getCommandIdentifier(): String {
-        return "setcursor"
-    }
+    override fun getCommandIdentifier() = "setcursor"
 
-    override fun getDescription(): String {
-        return "page read"
-    }
+    override fun getDescription() = "page read"
 
     override fun processMessage(absSender: AbsSender?, message: Message?, arguments: Array<out String>?) {
         arguments?.get(0).let {
@@ -63,13 +59,9 @@ class SetCursor (private val pageService: PageService): IBotCommand {
 @Component
 class CurrCursor (private val telegram: Telegram, private val jdbcTemplate: JdbcTemplate): IBotCommand {
 
-    override fun getCommandIdentifier(): String {
-        return "currcursor"
-    }
+    override fun getCommandIdentifier() = "currcursor"
 
-    override fun getDescription(): String {
-        return "currcursor"
-    }
+    override fun getDescription() = commandIdentifier
 
     override fun processMessage(absSender: AbsSender?, message: Message?, arguments: Array<out String>?) {
         telegram.sentText(
